@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./images/favicon-32x32.png"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <title>Frontend Mentor | Shortly URL shortening API Challenge</title>
+  </head>
+  <body>
+    <nav class="py-5 nav">
+      <div class="nav-left">
+        <h2 class="m-0 mr-5">Shortly</h2>
+        <p class="m-0 mr-4">Features</p>
+        <p class="m-0 mr-4">Pricing</p>
+        <p class="m-0 mr-4">Resources</p>
+      </div>
+      <div class="nav-right">
+        <p class="m-0 mr-5">Login</p>
+        <button class="sign-up">Sign Up</button>
+      </div>
+    </nav>
+
+    <section class="py-5">
+      <div style="max-width: 1140px;" class="container">
+        <div class="row align-items-center mb-5">
+          <div class="col p-0">
+            <h1 class="section-heading">
+              More than just shorter links
+            </h1>
+            <p class="section-subheading">
+              Build your brand's recognition and get detailed insights on how
+              your links are performing.
+            </p>
+            <button class="sign-up mt-3 px-5">Get Started</button>
+          </div>
+          <div class="col bg">
+            <img
+              class="img-fluid"
+              src="./images/illustration-working.svg"
+              alt=""
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="purple-bg mt-5">
+      <div style="max-width: 1140px;" class="container">
+        <div class="input-box w-100 px-5">
+          <input
+            id="url-input"
+            class="w-100 mr-3 url-input"
+            placeholder="Shorten a link here..."
+            type="text"
+          />
+          <small class="helper-text">Please add a url</small>
+          <button
+            onclick="shortenUrl()"
+            id="shorten-btn"
+            class="shorten-btn px-4 py-3"
+          >
+            Shorten it!
+          </button>
+        </div>
+        <div class="link-container"></div>
+
+        <h2 class="text-center secondary-headline">Advanced Statistics</h2>
+        <p class="text-center secondary-subheadline">
+          Track how your links are performing across the web with our advanced
+          statistics dashboard.
+        </p>
+        <div class="row card-row">
+          <div class="col">
+            <div class="feature-card pt-5 px-4">
+              <div class="card-icon">
+                <img src="./images/icon-brand-recognition.svg" alt="" />
+              </div>
+              <h4 class="card-title mt-4">Brand Recognition</h4>
+              <p class="card-copy">
+                Boost your brand recognition with each click. Generic links
+                don't mean a thing. Branded links help instill confidence in
+                your content.
+              </p>
+            </div>
+          </div>
+          <div class="col">
+            <div class="feature-card shift-down pt-5 px-4">
+              <div class="card-icon">
+                <img src="./images/icon-detailed-records.svg" alt="" />
+              </div>
+              <h4 class="card-title mt-4">Detailed Records</h4>
+              <p class="card-copy">
+                Gain insights into who is clicking your links. Knowing when and where people engage with your content helps infom better decisions.
+              </p>
+            </div>
+          </div>
+          <div class="col">
+            <div class="feature-card shift-more-down pt-5 px-4">
+              <div class="card-icon">
+                <img src="./images/icon-fully-customizable.svg" alt="" />
+              </div>
+              <h4 class="card-title mt-4">Fully Customizable</h4>
+              <p class="card-copy">
+                Improve brand awareness and content discoverability through customizable links, supercharging audience engagement.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+
+    <script>
+      new ClipboardJS(".copy-btn");
+
+      function getLinksFromStorage() {
+        let links = JSON.parse(localStorage.getItem("links"));
+
+        if (links) {
+          let cards = links.map(
+            (link) =>
+              `
+              <div class="link-card">
+                <div>${link.url}</div>
+                <div class="copy-container">
+                <a id="shortened-link-${link.hashid}" target="_blank" href=https://rel.ink/${link.hashid} class="m-0 d-flex align-items-center mr-3 shortened-link">
+                https://rel.ink/${link.hashid}
+                </a>
+                <button data-clipboard-target="#shortened-link-${link.hashid}" class=" copy-btn">Copy</button>
+                </div>
+              </div>
+              `
+          );
+          $(".link-container").html(cards);
+        }
+      }
+
+      $(document).ready(() => {
+        getLinksFromStorage();
+      });
+
+      function shortenUrl() {
+        let url = $("#url-input").val();
+        if (!url) {
+          $("#url-input").addClass("error");
+          $(".helper-text").show();
+        } else {
+          $("#url-input").removeClass("error");
+          $(".helper-text").hide();
+          axios.post("https://rel.ink/api/links/", { url }).then((res) => {
+            let existingLinks = JSON.parse(localStorage.getItem("links")) || [];
+            let newLink = {
+              hashid: res.data.hashid,
+              url: url,
+            };
+            existingLinks.push(newLink);
+            localStorage.setItem("links", JSON.stringify(existingLinks));
+            console.log(JSON.parse(localStorage.getItem("links")));
+            getLinksFromStorage();
+          });
+        }
+      }
+    </script>
+  </body>
+</html>
